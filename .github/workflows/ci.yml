@@ -19,6 +19,8 @@ jobs:
       with:
         java-version: '11'
 
-    - name: Run tests
+    - name: Compile and Run Tests
       run: |
-        ./gradlew test
+        javac LoginApp.java LoginAppTest.java
+
+        java org.junit.runner.JUnitCore LoginAppTest
