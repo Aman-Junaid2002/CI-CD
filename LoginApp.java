@@ -49,6 +49,8 @@ public class LoginApp extends JFrame {
 
             String userName = authenticateUser(email, password);
             if (userName != null) {
+                // Test CI Workflow
+                JOptionPane.showMessageDialog(null, "Test" , "Line", JOptionPane.INFORMATION_MESSAGE);
                 JOptionPane.showMessageDialog(null, "Welcome, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "User not found.", "Login Failed", JOptionPane.ERROR_MESSAGE);
