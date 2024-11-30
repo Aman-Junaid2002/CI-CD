@@ -18,9 +18,12 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
+        distribution: 'adopt'
 
     - name: Compile and Run Tests
       run: |
+        # Compile Java files
         javac LoginApp.java LoginAppTest.java
 
+        # Run JUnit tests
         java org.junit.runner.JUnitCore LoginAppTest
