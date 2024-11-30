@@ -1,29 +1,42 @@
-name: CI Pipeline
+name: Java CI Workflow
 
 on:
   pull_request:
     branches:
       - main
       - master
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
+    # Checkout the code from the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Java
+    # Set up Java environment
+    - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
-        distribution: 'adopt'
+        java-version: 11
+        distribution: 'zulu'
 
-    - name: Compile and Run Tests
+    # Cache dependencies
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    # Build and run tests
+    - name: Build and Test with Maven
       run: |
-        # Compile Java files
-        javac LoginApp.java LoginAppTest.java
-
-        # Run JUnit tests
-        java org.junit.runner.JUnitCore LoginAppTest
+        mvn install
+        mvn test
